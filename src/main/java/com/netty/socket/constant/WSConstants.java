@@ -27,4 +27,8 @@ public class WSConstants {
     public static final int PORT = 8989;
 
     public static final String WEB_SOCKET_URL = "ws://localhost:" + PORT + "/ws";
+
+    public static final String WEB_SOCKET_WS = "ws";
+
+    public static final String WEB_SOCKET_WSS = "wss";
 }
