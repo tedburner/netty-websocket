@@ -1,7 +1,7 @@
 package com.netty.socket.websocket;
 
 import com.netty.socket.constant.RedisConstants;
-import com.netty.socket.constant.WSConstants;
+import com.netty.socket.constant.WsConstants;
 import com.netty.socket.global.NettyConfig;
 import com.netty.socket.util.RedisUtils;
 import io.netty.buffer.ByteBuf;
@@ -26,8 +26,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
-
 /**
  * @author: lingjun.jlj
  * @date: 2019/10/19 21:15
@@ -45,7 +43,7 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
             handleHttpRequest(ctx, (FullHttpRequest) msg);
         } else if (msg instanceof WebSocketFrame) {
             //处理websocket客户端的消息
-            handlerWebSocketFrame(ctx, (WebSocketFrame) msg);
+            this.handleWebSocketFrame(ctx, (WebSocketFrame) msg);
         }
     }
 
@@ -97,7 +95,7 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
      * @param ctx
      * @param frame
      */
-    private void handlerWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
+    private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
         // 判断是否关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
             handShaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
@@ -129,8 +127,6 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
         RedisUtils.set(keyChannel, requestMsg);
         RedisUtils.set(keyChannel + "_id", channelId);
         RedisUtils.push(RedisConstants.WS_QUEUE_CHANNEL_ID, keyChannel);
-
-
     }
 
     /**
@@ -150,7 +146,7 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
             return;
         }
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
-                WSConstants.WEB_SOCKET_URL, null, false);
+                WsConstants.WEB_SOCKET_URL, null, false);
         handShaker = wsFactory.newHandshaker(request);
         if (handShaker == null) {
             WebSocketServerHandshakerFactory
@@ -171,7 +167,7 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
                                          FullHttpRequest request,
                                          DefaultFullHttpResponse response) {
         // 返回应答给客户端
-        if (response.status().code() != WSConstants.HTTP_OK) {
+        if (response.status().code() != WsConstants.HTTP_OK) {
             ByteBuf buf = Unpooled.copiedBuffer(response.status().toString(),
                     CharsetUtil.UTF_8);
             response.content().writeBytes(buf);
@@ -181,7 +177,7 @@ public class NioWebsocketHandler extends SimpleChannelInboundHandler<Object> {
         //服务器端想客户端发送数据
         ChannelFuture channelFuture = ctx.channel().writeAndFlush(response);
         // 如果是非Keep-Alive，关闭连接
-        if (!HttpUtil.isKeepAlive(request) || response.status().code() != WSConstants.HTTP_OK) {
+        if (!HttpUtil.isKeepAlive(request) || response.status().code() != WsConstants.HTTP_OK) {
             channelFuture.addListener(ChannelFutureListener.CLOSE);
             log.info("websocket 连接关闭");
         }

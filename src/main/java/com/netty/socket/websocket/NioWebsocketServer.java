@@ -1,6 +1,6 @@
 package com.netty.socket.websocket;
 
-import com.netty.socket.constant.WSConstants;
+import com.netty.socket.constant.WsConstants;
 import com.netty.socket.util.RedisUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -27,7 +27,7 @@ public class NioWebsocketServer {
                     .childHandler(new NioWebsocketChannelInitializer());
 
             Channel channel = bootstrap
-                    .bind(WSConstants.PORT)
+                    .bind(WsConstants.PORT)
                     .sync()
                     .channel();
             log.info("websocket服务启动成功：{}", channel);
@@ -42,6 +42,11 @@ public class NioWebsocketServer {
         }
     }
 
+    /**
+     * 启动 Websocket 服务
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         RedisUtils.init();
         new NioWebsocketServer().init();

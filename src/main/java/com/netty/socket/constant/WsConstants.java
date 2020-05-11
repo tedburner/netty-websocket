@@ -5,30 +5,21 @@ package com.netty.socket.constant;
  * @date: 2019/10/20 15:49
  * @description:
  */
-public class WSConstants {
+public class WsConstants {
 
     public static final int HTTP_OK = 200;
 
     /**=======Netty Handler 配置 =====*/
     public static final String LOGGING = "logging";
-
     public static final String HTTP_CODEC = "http-codec";
-
     public static final String AGGREGATOR = "aggregator";
-
     public static final int MAX_CONTENT_LENGTH = 65536;
-
     public static final String HTTP_CHUNKED = "http-chunked";
-
     public static final String HANDLER = "handler";
-
 
     /**=======WebSocket 配置 =====*/
     public static final int PORT = 8989;
-
-    public static final String WEB_SOCKET_URL = "ws://localhost:" + PORT + "/ws";
-
     public static final String WEB_SOCKET_WS = "ws";
-
     public static final String WEB_SOCKET_WSS = "wss";
+    public static final String WEB_SOCKET_URL = "ws://localhost:" + PORT + "/ws";
 }

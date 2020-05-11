@@ -1,6 +1,6 @@
 package com.netty.socket.websocket;
 
-import com.netty.socket.constant.WSConstants;
+import com.netty.socket.constant.WsConstants;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -20,13 +20,13 @@ public class NioWebsocketChannelInitializer extends ChannelInitializer<SocketCha
                 //设置日志监听器，并且日志几倍为debug，方便观察
                 // .addLast("logging", new LoggingHandler("DEBUG"))
                 //设置解码器
-                .addLast(WSConstants.HTTP_CODEC, new HttpServerCodec())
+                .addLast(WsConstants.HTTP_CODEC, new HttpServerCodec())
                 //聚合器，使用websocket时用到
-                .addLast(WSConstants.AGGREGATOR, new HttpObjectAggregator(WSConstants.MAX_CONTENT_LENGTH))
+                .addLast(WsConstants.AGGREGATOR, new HttpObjectAggregator(WsConstants.MAX_CONTENT_LENGTH))
                 //用于大数据的分区传输
-                .addLast(WSConstants.HTTP_CHUNKED, new ChunkedWriteHandler())
+                .addLast(WsConstants.HTTP_CHUNKED, new ChunkedWriteHandler())
                 //.addLast(new WebSocketServerProtocolHandler("/ws"))
                 //自定义业务handler处理
-                .addLast(WSConstants.HANDLER, new NioWebsocketHandler());
+                .addLast(WsConstants.HANDLER, new NioWebsocketHandler());
     }
 }

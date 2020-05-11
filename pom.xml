@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.netty</groupId>
-    <artifactId>socket</artifactId>
+    <artifactId>netty-socket</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>netty-socket</name>
     <description>Websocket base on Netty</description>
